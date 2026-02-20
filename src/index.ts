@@ -34,26 +34,38 @@ export default {
       })
 
       if (detection) {
-        const geo = enrichFromCf(
-          req.cf as Record<string, unknown> | undefined,
-          headers
-        )
+        // For click events, only track actual page navigations to avoid
+        // double-counting sub-resource requests that inherit the AI referer.
+        const secFetchMode = headers['sec-fetch-mode']
+        const shouldTrack =
+          detection.type !== 'click' || secFetchMode === 'navigate'
 
-        const parsedUrl = new URL(req.url)
-        detected.push({
-          host: parsedUrl.hostname,
-          path: parsedUrl.pathname,
-          source: detection.source,
-          type: detection.type,
-          userAgent: headers['user-agent'],
-          referer: headers['referer'],
-          ...geo,
-        })
+        if (shouldTrack) {
+          const geo = enrichFromCf(
+            req.cf as Record<string, unknown> | undefined,
+            headers
+          )
+
+          const parsedUrl = new URL(req.url)
+          detected.push({
+            host: parsedUrl.hostname,
+            path: parsedUrl.pathname,
+            source: detection.source,
+            type: detection.type,
+            userAgent: headers['user-agent'],
+            referer: headers['referer'],
+            ...geo,
+          })
+        }
       }
     }
 
     if (detected.length > 0) {
-      ctx.waitUntil(writeEvents(env.AI_TRACKER_DB, detected))
+      ctx.waitUntil(
+        writeEvents(env.AI_TRACKER_DB, detected).catch((err) => {
+          console.error(`Failed to write ${detected.length} events:`, err)
+        })
+      )
     }
   },
 
@@ -95,6 +107,8 @@ export default {
             userAgent: request.headers.get('user-agent') ?? undefined,
             referer: request.headers.get('referer') ?? undefined,
             ...geo,
+          }).catch((err) => {
+            console.error('Failed to write event:', err)
           })
         )
       }

@@ -45,7 +45,6 @@ export const AI_BOTS: Record<string, string> = {
   'claude-searchbot': 'anthropic-searchbot',
   'anthropic-ai': 'anthropic-ai',
   // Google
-  'googlebot': 'google-bot',
   'google-extended': 'google-extended',
   // Microsoft/Bing
   'bingbot': 'microsoft-bingbot',
@@ -57,11 +56,11 @@ export const AI_BOTS: Record<string, string> = {
   // Apple
   'applebot': 'apple-applebot',
   // Brave
-  'brave': 'brave-search',
+  'bravesearch': 'brave-search',
   // Cohere
   'cohere-ai': 'cohere-ai',
   // Mistral
-  'mistral': 'mistral-bot',
+  'mistralbot': 'mistral-bot',
   // General crawlers
   'amazonbot': 'amazon-bot',
   'bytespider': 'bytedance',
