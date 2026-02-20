@@ -1,0 +1,36 @@
+{
+  "name": "cf-ai-bot-tracker",
+  "version": "0.1.0",
+  "description": "Open-source Cloudflare Worker that detects and logs AI bot visits to your website",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler d1 migrations apply AI_TRACKER_DB && wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply AI_TRACKER_DB",
+    "db:migrate:local": "wrangler d1 migrations apply AI_TRACKER_DB --local",
+    "db:query": "wrangler d1 execute cf-ai-bot-tracker --command",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "ai",
+    "bot",
+    "tracker",
+    "analytics",
+    "tail-worker",
+    "chatgpt",
+    "claude",
+    "perplexity"
+  ],
+  "author": "datagum",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.7.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^4.0.0"
+  }
+}

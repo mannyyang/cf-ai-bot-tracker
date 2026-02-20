@@ -1,0 +1,23 @@
+name = "cf-ai-bot-tracker"
+main = "src/index.ts"
+compatibility_date = "2025-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 Database — auto-provisioned by Deploy to Cloudflare button
+[[d1_databases]]
+binding = "AI_TRACKER_DB"
+database_name = "cf-ai-bot-tracker"
+database_id = ""
+
+# ─── Tail Worker Mode (recommended) ───
+# Add this to your SITE's wrangler.toml (not this file):
+#
+# [[tail_consumers]]
+# service = "cf-ai-bot-tracker"
+
+# ─── Pass-through Mode (alternative) ───
+# Uncomment to run as a pass-through Worker on your domain:
+#
+# [[routes]]
+# pattern = "example.com/*"
+# zone_name = "example.com"
