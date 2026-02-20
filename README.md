@@ -2,7 +2,7 @@
 
 Open-source Cloudflare Worker that detects and logs AI bot visits to your website. Tracks 30+ AI crawlers, clicks from AI chat interfaces, and ChatGPT agent mode — all stored in Cloudflare D1.
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/datagum/cf-ai-bot-tracker)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/mannyyang/cf-ai-bot-tracker)
 
 ## Quick start
 
@@ -67,6 +67,7 @@ pnpm db:query "SELECT country, count(*) as count FROM ai_bot_events GROUP BY cou
 | Column | Type | Description |
 |--------|------|-------------|
 | `id` | TEXT | Auto-generated UUID |
+| `host` | TEXT | Hostname (e.g., `example.com`) |
 | `path` | TEXT | URL path visited |
 | `source` | TEXT | Canonical source (e.g., `openai-gptbot`, `chatgpt`, `perplexity-bot`) |
 | `type` | TEXT | `click`, `crawler`, or `agent` |
@@ -90,7 +91,7 @@ pnpm db:query "SELECT country, count(*) as count FROM ai_bot_events GROUP BY cou
 | `oai-searchbot` | openai-searchbot | OpenAI |
 | `perplexitybot` | perplexity-bot | Perplexity |
 | `claudebot` | anthropic-claudebot | Anthropic |
-| `claude-web` | anthropic-claude-web | Anthropic |
+| `claude-user` | anthropic-claude-user | Anthropic |
 | `claude-searchbot` | anthropic-searchbot | Anthropic |
 | `googlebot` | google-bot | Google |
 | `google-extended` | google-extended | Google |
@@ -140,7 +141,7 @@ zone_name = "example.com"
 If you prefer not to use the deploy button:
 
 ```bash
-git clone https://github.com/datagum/cf-ai-bot-tracker.git
+git clone https://github.com/mannyyang/cf-ai-bot-tracker.git
 cd cf-ai-bot-tracker
 pnpm install
 pnpm deploy    # creates D1, runs migrations, deploys
